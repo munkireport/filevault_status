@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Filevault status module class
+ * Filevault_status module class
  *
  * @package munkireport
  * @author
@@ -26,8 +26,9 @@ class Filevault_status_controller extends Module_controller
         echo "You've loaded the filevault_status module!";
     }
 
-     /**
-     * Retrieve data in json format
+    /**
+     * Retrieve data in json format for filevault_escrow tab
+     * (Will be removed once filevault_escrow tab is rewritten)
      *
      **/
     public function get_data($serial_number = '')
@@ -50,4 +51,26 @@ class Filevault_status_controller extends Module_controller
         $obj->view('json', array('msg' => $filevault_escrow->rs));
     }
 
-} // END class default_module
+    /**
+     * Retrieve data in json format for filevault_status tab
+     *
+     **/
+    public function get_status_data($serial_number = '')
+    {
+        $obj = new View();
+
+        if (! $this->authorized()) {
+            $obj->view('json', array('msg' => 'Not authorized'));
+            return;
+        }
+        
+        $sql = "SELECT filevault_status, filevault_users, auth_restart_support, fv_master_keychain, has_institutional_recovery_key, has_personal_recovery_key, using_recovery_key, fv_progress_status, conversion_percent, bytes_converted, volume_size, conversion_state, pvdeviceid, device_identifier, volume_name, pv_uuid, lvf_uuid, lvg_uuid, uuid, deferral_info, crypto_users
+                        FROM filevault_status 
+                        WHERE serial_number = '$serial_number'";
+        
+        $queryobj = new Filevault_status_model();
+        $filevault_status_tab = $queryobj->query($sql);
+        $obj->view('json', array('msg' => $filevault_status_tab)); 
+    }
+
+} // End class Filevault_status_controller
