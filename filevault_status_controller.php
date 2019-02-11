@@ -25,6 +25,136 @@ class Filevault_status_controller extends Module_controller
     {
         echo "You've loaded the filevault_status module!";
     }
+    
+    /**
+    * Retrieve FileVault status
+    *
+    * @return JSON object
+    * @author tuxudo
+    **/
+    public function get_filevault_status()
+    {
+        $obj = new View();
+        if (! $this->authorized()) {
+            $obj->view('json', array('msg' => 'Not authorized'));
+            return;
+        }
+  
+        $queryobj = new Filevault_status_model();
+        $sql = "SELECT COUNT(1) as total,
+                        COUNT(CASE WHEN `filevault_status` = 1 AND `filevault_status` <> '' THEN 1 END) AS 'On',
+                        COUNT(CASE WHEN `filevault_status` = 0 AND `filevault_status` <> '' THEN 1 END) AS 'Off',
+                        COUNT(CASE WHEN `filevault_status` IS NULL THEN 1 WHEN `filevault_status` = '' THEN 1 END) AS 'Unknown'
+                        FROM filevault_status
+                        LEFT JOIN reportdata USING (serial_number)
+                        WHERE
+                            ".get_machine_group_filter('');
+        $obj->view('json', array('msg' => current($queryobj->query($sql))));
+    }
+    
+    /**
+    * Retrieve auth restart supported
+    *
+    * @return JSON object
+    * @author tuxudo
+    **/
+    public function get_auth_restart_support()
+    {
+        $obj = new View();
+        if (! $this->authorized()) {
+            $obj->view('json', array('msg' => 'Not authorized'));
+            return;
+        }
+  
+        $queryobj = new Filevault_status_model();
+        $sql = "SELECT COUNT(1) as total,
+                        COUNT(CASE WHEN `auth_restart_support` = 1 THEN 1 END) AS 'yes',
+                        COUNT(CASE WHEN `auth_restart_support` = 0 THEN 1 END) AS 'no',
+                        COUNT(CASE WHEN `auth_restart_support` IS NULL THEN 1 END) AS 'unknown'
+                        FROM filevault_status
+                        LEFT JOIN reportdata USING (serial_number)
+                        WHERE
+                            ".get_machine_group_filter('');
+        $obj->view('json', array('msg' => current($queryobj->query($sql))));
+    }
+    
+    /**
+    * Retrieve if institutional recovery key is present supported
+    *
+    * @return JSON object
+    * @author tuxudo
+    **/
+    public function get_institutional_recovery_key()
+    {
+        $obj = new View();
+        if (! $this->authorized()) {
+            $obj->view('json', array('msg' => 'Not authorized'));
+            return;
+        }
+  
+        $queryobj = new Filevault_status_model();
+        $sql = "SELECT COUNT(1) as total,
+                        COUNT(CASE WHEN `has_institutional_recovery_key` = 1 THEN 1 END) AS 'yes',
+                        COUNT(CASE WHEN `has_institutional_recovery_key` = 0 THEN 1 END) AS 'no',
+                        COUNT(CASE WHEN `has_institutional_recovery_key` IS NULL THEN 1 END) AS 'unknown'
+                        from filevault_status
+                        LEFT JOIN reportdata USING (serial_number)
+                        WHERE
+                            ".get_machine_group_filter('');
+        $obj->view('json', array('msg' => current($queryobj->query($sql))));
+    }
+    
+    /**
+    * Retrieve if personal recovery key is present
+    *
+    * @return JSON object
+    * @author tuxudo
+    **/
+    public function get_personal_recovery_key()
+    {
+        $obj = new View();
+        if (! $this->authorized()) {
+            $obj->view('json', array('msg' => 'Not authorized'));
+            return;
+        }
+  
+        $queryobj = new Filevault_status_model();
+        $sql = "SELECT COUNT(1) as total,
+                        COUNT(CASE WHEN `has_personal_recovery_key` = 1 THEN 1 END) AS 'yes',
+                        COUNT(CASE WHEN `has_personal_recovery_key` = 0 THEN 1 END) AS 'no',
+                        COUNT(CASE WHEN `has_personal_recovery_key` IS NULL THEN 1 END) AS 'unknown'
+                        FROM filevault_status
+                        LEFT JOIN reportdata USING (serial_number)
+                        WHERE
+                            ".get_machine_group_filter('');
+        $obj->view('json', array('msg' => current($queryobj->query($sql))));
+    }
+    
+    /**
+    * Retrieve conversion state of HFS drives
+    *
+    * @return JSON object
+    * @author tuxudo
+    **/
+    public function get_conversion_state()
+    {
+        $obj = new View();
+        if (! $this->authorized()) {
+            $obj->view('json', array('msg' => 'Not authorized'));
+            return;
+        }
+  
+        $queryobj = new Filevault_status_model();
+        $sql = "SELECT COUNT(1) as total,
+                        COUNT(CASE WHEN `fv_progress_status` = '%Encryption%' THEN 1 END) AS 'encrypting',
+                        COUNT(CASE WHEN `fv_progress_status` = '%Decryption%' THEN 1 END) AS 'decrypting',
+                        COUNT(CASE WHEN `fv_progress_status` = 'FileVault is Off, but needs to be restarted to finish.' THEN 1 WHEN `fv_progress_status` = 'FileVault is On, but needs to be restarted to finish.' THEN 1 END) AS 'restart'
+                        FROM filevault_status
+                        LEFT JOIN reportdata USING (serial_number)
+                        WHERE
+                            ".get_machine_group_filter('');
+        $obj->view('json', array('msg' => current($queryobj->query($sql))));
+    }
 
     /**
      * Retrieve data in json format for filevault_escrow tab

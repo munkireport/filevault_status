@@ -66,7 +66,7 @@ def get_filevault_status():
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, unused_error) = proc.communicate()
     
-    out = {'filevault_status':0,'fv_master_keychain':0}
+    out = {'filevault_status':0,'fv_master_keychain':0,'drive_type':"HFS"}
     
     for fv_line in output.split('\n'):
         if 'FileVault is On.' in fv_line:
@@ -77,11 +77,11 @@ def get_filevault_status():
             out['fv_progress_status'] = fv_line
         elif 'Decryption in progress: ' in fv_line:
             out['fv_progress_status'] = fv_line
+        elif 'but needs to be restarted to finish' in fv_line:
+            out['fv_progress_status'] = fv_line
 #        elif 'Deferred enablement appears to be active for user' in fv_line:
 #            out['fv_progress_status'] = fv_line
 
-        elif 'Volume is HFS' in fv_line:
-            out['drive_type'] = "HFS"
         elif 'Volume is APFS' in fv_line:
             out['drive_type'] = "APFS"
     

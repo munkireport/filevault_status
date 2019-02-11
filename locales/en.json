@@ -26,6 +26,9 @@
     "crypto_users": "SecureToken Enabled Users",
     "user_guid": "User GUID",
     "user_type": "Type",
+    "encrypting": "Encrypting",
+    "decrypting": "Decrypting",
+    "restart": "Restart Required",
     "filevault_status_short": "Status",
     "filevault_users_short": "Users",
     "crypto_users_short": "SecureToken",
@@ -33,5 +36,6 @@
     "has_personal_recovery_key_short": "Has PRK",
     "fv_progress_status_short": "Type",
     "fv_progress_status_short": "Progress",
+    "filevault_report": "FileVault Report",
     "filevault_info": "FileVault"
 }
