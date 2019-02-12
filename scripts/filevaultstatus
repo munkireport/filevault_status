@@ -113,41 +113,45 @@ def get_filevault_status_legacy():
 
 def get_cs_info():
 
-    command = ['/usr/sbin/diskutil', 'cs', 'info', '-plist', '/']
-    pl = _DictFromSubprocess(command)
+    try:
+        command = ['/usr/sbin/diskutil', 'cs', 'info', '-plist', '/']
+        pl = _DictFromSubprocess(command)
 
-    out = {}
+        out = {}
 
-    for item in pl:
-        if item == 'CoreStorageLogicalVolumeBytesConverted':
-            out['bytes_converted'] = pl[item]
-        elif item == 'CoreStorageLogicalVolumeConversionProgressPercent':
-            out['conversion_percent'] = pl[item]
-        elif item == 'CoreStorageLogicalVolumeConversionState':
-            out['conversion_state'] = pl[item]
-        elif item == 'CoreStorageLogicalVolumeConversionStateDetail':
-            out['conversion_state_detail'] = pl[item]
-        elif item == 'CoreStorageLogicalVolumeName':
-            out['volume_name'] = pl[item]
-        elif item == 'CoreStorageLogicalVolumeSize':
-            out['volume_size'] = pl[item]
-        elif item == 'CoreStorageLogicalVolumeStatus':
-            out['volume_status'] = pl[item]
-        elif item == 'CoreStorageUUID':
-            out['uuid'] = pl[item]
-        elif item == 'DesignatedCoreStoragePhysicalVolume':
-            out['pv_uuid'] = pl[item]
-        elif item == 'DesignatedCoreStoragePhysicalVolumeDeviceIdentifier':
-            out['pvdeviceid'] = pl[item]
-        elif item == 'DeviceIdentifier':
-            out['device_identifier'] = pl[item]
-        elif item == 'MemberOfCoreStorageLogicalVolumeFamily':
-            out['lvf_uuid'] = pl[item]
-        elif item == 'MemberOfCoreStorageLogicalVolumeGroup':
-            out['lvg_uuid'] = pl[item]
+        for item in pl:
+            if item == 'CoreStorageLogicalVolumeBytesConverted':
+                out['bytes_converted'] = pl[item]
+            elif item == 'CoreStorageLogicalVolumeConversionProgressPercent':
+                out['conversion_percent'] = pl[item]
+            elif item == 'CoreStorageLogicalVolumeConversionState':
+                out['conversion_state'] = pl[item]
+            elif item == 'CoreStorageLogicalVolumeConversionStateDetail':
+                out['conversion_state_detail'] = pl[item]
+            elif item == 'CoreStorageLogicalVolumeName':
+                out['volume_name'] = pl[item]
+            elif item == 'CoreStorageLogicalVolumeSize':
+                out['volume_size'] = pl[item]
+            elif item == 'CoreStorageLogicalVolumeStatus':
+                out['volume_status'] = pl[item]
+            elif item == 'CoreStorageUUID':
+                out['uuid'] = pl[item]
+            elif item == 'DesignatedCoreStoragePhysicalVolume':
+                out['pv_uuid'] = pl[item]
+            elif item == 'DesignatedCoreStoragePhysicalVolumeDeviceIdentifier':
+                out['pvdeviceid'] = pl[item]
+            elif item == 'DeviceIdentifier':
+                out['device_identifier'] = pl[item]
+            elif item == 'MemberOfCoreStorageLogicalVolumeFamily':
+                out['lvf_uuid'] = pl[item]
+            elif item == 'MemberOfCoreStorageLogicalVolumeGroup':
+                out['lvg_uuid'] = pl[item]
 
-    return out
-
+        return out
+    
+    except Exception:
+        return {}
+    
 def get_deferral_info():
     
     cmd = ['/usr/bin/fdesetup', 'showdeferralinfo']
