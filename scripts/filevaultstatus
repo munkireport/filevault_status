@@ -131,7 +131,7 @@ def get_cs_info():
             elif item == 'CoreStorageLogicalVolumeName':
                 out['volume_name'] = pl[item]
             elif item == 'CoreStorageLogicalVolumeSize':
-                out['volume_size'] = pl[item]
+                out['volume_size'] = str(pl[item])
             elif item == 'CoreStorageLogicalVolumeStatus':
                 out['volume_status'] = pl[item]
             elif item == 'CoreStorageUUID':
