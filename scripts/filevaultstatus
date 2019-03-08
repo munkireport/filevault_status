@@ -271,6 +271,11 @@ def main():
             print 'Manual check: skipping'
             exit(0)
 
+    # Check if module is supported
+    if  not  os.path.isfile(os.path.dirname('/usr/bin/fdesetup')):
+        print "Error: filevaultstatus module not supported on this version of macOS"
+        exit(0)
+
     # Get information about FileVault    
     result = dict()
 
