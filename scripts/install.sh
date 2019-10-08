@@ -12,11 +12,12 @@ if [ $? = 0 ]; then
 	chmod a+x "${MUNKIPATH}preflight.d/filevaultstatus"
 
 	# Set preference to include this file in the preflight check
-	setreportpref "filevault_status" "${CACHEPATH}filevaultstatus.txt"
+	setreportpref "filevault_status" "${CACHEPATH}filevault_status.plist"
+
 else
-	echo "! Failed to install all required components"
-	echo "! Skipping filevault status report"
+	echo "Failed to download all required components!"
 	rm -f "${MUNKIPATH}preflight.d/filevaultstatus"
+    
 	# Set the exit status
 	ERR=1
 fi
