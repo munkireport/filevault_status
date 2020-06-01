@@ -172,7 +172,6 @@ class Filevault_status_controller extends Module_controller
 
         $filevault_escrow = new Filevault_escrow_model($serial_number);
         $filevault_status = new Filevault_status_model($serial_number);
-        $disk_report = new Disk_report_model($serial_number);
 
         // Add relevant keys to escrow object
         $filevault_escrow->rs['filevault_status'] = $filevault_status->rs['filevault_status'];
