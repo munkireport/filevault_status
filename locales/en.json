@@ -37,5 +37,6 @@
     "fv_progress_status_short": "Type",
     "fv_progress_status_short": "Progress",
     "filevault_report": "FileVault Report",
-    "filevault_info": "FileVault"
+    "filevault_info": "FileVault",
+    "auth_restart_support_short": "Auth Restart"
 }
