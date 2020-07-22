@@ -23,6 +23,7 @@ new Filevault_status_model;
 			<th data-i18n="filevault_status.crypto_users_short" data-colname='filevault_status.crypto_users'></th>
 			<th data-i18n="filevault_status.has_institutional_recovery_key_short" data-colname='filevault_status.has_institutional_recovery_key'></th>
 			<th data-i18n="filevault_status.has_personal_recovery_key_short" data-colname='filevault_status.has_personal_recovery_key'></th>
+			<th data-i18n="filevault_status.auth_restart_support_short" data-colname='filevault_status.auth_restart_support'></th>
 			<th data-i18n="filevault_status.fv_progress_status_short" data-colname='filevault_status.fv_progress_status'></th>
 		  </tr>
 		</thead>
@@ -133,6 +134,11 @@ new Filevault_status_model;
 	        	colvar = colvar == '1' ? i18n.t('yes') :
 	        	(colvar === '0' ? i18n.t('no') : '')
 	        	$('td:eq(6)', nRow).html(colvar)
+                
+                var colvar=$('td:eq(7)', nRow).html();
+	        	colvar = colvar == '1' ? i18n.t('yes') :
+	        	(colvar === '0' ? i18n.t('no') : '')
+	        	$('td:eq(7)', nRow).html(colvar)
 		    }
 	    });
 
