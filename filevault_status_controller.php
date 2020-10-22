@@ -193,13 +193,65 @@ class Filevault_status_controller extends Module_controller
             return;
         }
         
-        $sql = "SELECT filevault_status, filevault_users, auth_restart_support, fv_master_keychain, has_institutional_recovery_key, has_personal_recovery_key, using_recovery_key, fv_progress_status, conversion_percent, bytes_converted, volume_size, conversion_state, pvdeviceid, device_identifier, volume_name, pv_uuid, lvf_uuid, lvg_uuid, uuid, deferral_info, crypto_users
+        $sql = "SELECT filevault_status, filevault_users, auth_restart_support, fv_master_keychain, has_institutional_recovery_key, has_personal_recovery_key, using_recovery_key, fv_progress_status, conversion_percent, bytes_converted, volume_size, conversion_state, pvdeviceid, device_identifier, volume_name, pv_uuid, lvf_uuid, lvg_uuid, uuid, deferral_info, bootstraptoken_supported, bootstraptoken_escrowed, crypto_users
                         FROM filevault_status 
                         WHERE serial_number = '$serial_number'";
         
         $queryobj = new Filevault_status_model();
         $filevault_status_tab = $queryobj->query($sql);
         $obj->view('json', array('msg' => $filevault_status_tab)); 
+    }
+
+    /**
+    * Retrieve boostraptoken supported
+    *
+    * @return JSON object
+    * @author eholtam
+    **/
+    public function get_bootstraptoken_supported()
+    {
+        $obj = new View();
+        if (! $this->authorized()) {
+            $obj->view('json', array('msg' => 'Not authorized'));
+            return;
+        }
+  
+        $queryobj = new Filevault_status_model();
+        $sql = "SELECT COUNT(1) as total,
+                        COUNT(CASE WHEN `bootstraptoken_supported` = 1 THEN 1 END) AS 'yes',
+                        COUNT(CASE WHEN `bootstraptoken_supported` = 0 THEN 1 END) AS 'no',
+                        COUNT(CASE WHEN `bootstraptoken_supported` IS NULL THEN 1 END) AS 'unknown'
+                        FROM filevault_status
+                        LEFT JOIN reportdata USING (serial_number)
+                        WHERE
+                            ".get_machine_group_filter('');
+        $obj->view('json', array('msg' => current($queryobj->query($sql))));
+    }
+
+    /**
+    * Retrieve boostraptoken supported
+    *
+    * @return JSON object
+    * @author eholtam
+    **/
+    public function get_bootstraptoken_escrowed()
+    {
+        $obj = new View();
+        if (! $this->authorized()) {
+            $obj->view('json', array('msg' => 'Not authorized'));
+            return;
+        }
+  
+        $queryobj = new Filevault_status_model();
+        $sql = "SELECT COUNT(1) as total,
+                        COUNT(CASE WHEN `bootstraptoken_escrowed` = 1 THEN 1 END) AS 'yes',
+                        COUNT(CASE WHEN `bootstraptoken_escrowed` = 0 THEN 1 END) AS 'no',
+                        COUNT(CASE WHEN `bootstraptoken_escrowed` IS NULL THEN 1 END) AS 'unknown'
+                        FROM filevault_status
+                        LEFT JOIN reportdata USING (serial_number)
+                        WHERE
+                            ".get_machine_group_filter('');
+        $obj->view('json', array('msg' => current($queryobj->query($sql))));
     }
 
 } // End class Filevault_status_controller

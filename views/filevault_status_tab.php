@@ -77,7 +77,21 @@ $(document).on('appReady', function(){
                         } else if(prop == 'using_recovery_key' && d[prop] == 0){
                             rows = rows + '<tr><th>'+i18n.t('filevault_status.'+prop)+'</th><td>'+i18n.t('no')+'</td></tr>';
 
-                        } else if(prop == "crypto_users"){
+                        } 
+                        
+                        else if(prop == 'bootstraptoken_supported' && d[prop] == 1){
+                            rows = rows + '<tr><th>'+i18n.t('filevault_status.'+prop)+'</th><td>'+i18n.t('yes')+'</td></tr>';
+                        } else if(prop == 'bootstraptoken_supported' && d[prop] == 0){
+                            rows = rows + '<tr><th>'+i18n.t('filevault_status.'+prop)+'</th><td>'+i18n.t('no')+'</td></tr>';
+                        }
+
+                        else if(prop == 'bootstraptoken_escrowed' && d[prop] == 1){
+                            rows = rows + '<tr><th>'+i18n.t('filevault_status.'+prop)+'</th><td>'+i18n.t('yes')+'</td></tr>';
+                        } else if(prop == 'bootstraptoken_escrowed' && d[prop] == 0){
+                            rows = rows + '<tr><th>'+i18n.t('filevault_status.'+prop)+'</th><td>'+i18n.t('no')+'</td></tr>';
+                        }
+                        
+                        else if(prop == "crypto_users"){
                             
                             // Build out crypto_users table
                             var crypto_users_data = JSON.parse(d[prop]);

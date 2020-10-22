@@ -16,5 +16,7 @@ return array(
         'institutional_recovery_key' => array('view' => 'institutional_recovery_key_widget', 'i18n' => 'filevault_status.has_institutional_recovery_key'),
         'personal_recovery_key' => array('view' => 'personal_recovery_key_widget', 'i18n' => 'filevault_status.has_personal_recovery_key'),
         'conversion_state' => array('view' => 'conversion_state_widget', 'i18n' => 'filevault_status.conversion_state'),
+        'bootstraptoken_supported' => array('view' => 'bootstraptoken_supported_widget', 'i18n' => 'filevault_status.bootstraptoken_supported'),
+        'bootstraptoken_escrowed' => array('view' => 'bootstraptoken_escrowed_widget', 'i18n' => 'filevault_status.bootstraptoken_escrowed'),
     )
 );
