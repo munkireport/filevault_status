@@ -30,6 +30,9 @@ class Filevault_status_model extends \Model {
         $this->rs['uuid'] = '';
         $this->rs['crypto_users'] = '';
         $this->rs['deferral_info'] = '';
+        $this->rs['bootstraptoken_supported'] = null;
+        $this->rs['bootstraptoken_escrowed'] = null;
+        
 
         if ($serial) {
             $this->retrieve_record($serial);
@@ -82,7 +85,7 @@ class Filevault_status_model extends \Model {
             $plist = $parser->toArray();
 
             // Process each key, if it exists
-            foreach (array('filevault_status', 'filevault_users', 'auth_restart_support', 'fv_master_keychain', 'has_institutional_recovery_key', 'has_personal_recovery_key', 'using_recovery_key', 'conversion_percent', 'bytes_converted', 'volume_size', 'conversion_state', 'fv_progress_status', 'device_identifier', 'pvdeviceid', 'volume_name', 'lvf_uuid', 'lvg_uuid', 'pv_uuid', 'uuid', 'filevault_users', 'crypto_users', 'deferral_info') as $item) {
+            foreach (array('filevault_status', 'filevault_users', 'auth_restart_support', 'fv_master_keychain', 'has_institutional_recovery_key', 'has_personal_recovery_key', 'using_recovery_key', 'conversion_percent', 'bytes_converted', 'volume_size', 'conversion_state', 'fv_progress_status', 'device_identifier', 'pvdeviceid', 'volume_name', 'lvf_uuid', 'lvg_uuid', 'pv_uuid', 'uuid', 'filevault_users', 'crypto_users', 'deferral_info', 'bootstraptoken_supported', 'bootstraptoken_escrowed') as $item) {
 
                 // If key does not exist in $plist, null it
                 if ( ! array_key_exists($item, $plist)) {

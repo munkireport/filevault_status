@@ -16,6 +16,11 @@
     <?php $widget->view($this, 'personal_recovery_key'); ?>
     <?php $widget->view($this, 'conversion_state'); ?>
   </div> <!-- /row -->
+
+  <div class="row">
+    <?php $widget->view($this, 'bootstraptoken_supported'); ?>
+    <?php $widget->view($this, 'bootstraptoken_escrowed'); ?>
+  </div> <!-- /row -->
     
 </div>  <!-- /container -->
 
