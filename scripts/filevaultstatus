@@ -214,6 +214,37 @@ def get_filevault_active():
         return True
     else:
         return False
+
+def get_boostraptoken_supported():
+    
+    cmd = ['/usr/bin/profiles', 'status', '-type', 'bootstraptoken']
+    proc = subprocess.Popen(cmd, shell=False, bufsize=-1,
+                            stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    (output, unused_error) = proc.communicate()
+    output = output.splitlines()
+
+    for line in output:
+        if "supported on server: YES" in line:
+            return {'booststraptoken_supported': 1}
+    #If supported is not YES, return false
+    return {'booststraptoken_supported': 0}
+
+
+def get_boostraptoken_escrowed():
+    
+    cmd = ['/usr/bin/profiles', 'status', '-type', 'bootstraptoken']
+    proc = subprocess.Popen(cmd, shell=False, bufsize=-1,
+                            stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    (output, unused_error) = proc.communicate()
+    output = output.splitlines()
+
+    for line in output:
+        if "escrowed to server: YES" in line:
+            return {'booststraptoken_escrowed': 1}
+    #If escrowed is not YES, return false
+    return {'booststraptoken_escrowed': 0}
     
 def to_bool(s):
     if s == True or "true" in s:
