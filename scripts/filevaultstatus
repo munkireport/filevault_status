@@ -215,7 +215,7 @@ def get_filevault_active():
     else:
         return False
 
-def get_bootstraptoken_supported():
+def get_bootstraptoken_status():
     
     cmd = ['/usr/bin/profiles', 'status', '-type', 'bootstraptoken']
     proc = subprocess.Popen(cmd, shell=False, bufsize=-1,
@@ -223,28 +223,19 @@ def get_bootstraptoken_supported():
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, unused_error) = proc.communicate()
     output = output.splitlines()
-
+    
+    out = {}
+    out['bootstraptoken_supported'] = 0
+    out['bootstraptoken_escrowed'] = 0
+    
     for line in output:
         if "supported on server: YES" in line:
-            return {'bootstraptoken_supported': 1}
-    #If supported is not YES, return false
-    return {'bootstraptoken_supported': 0}
+            out['bootstraptoken_supported'] = 1
 
-
-def get_bootstraptoken_escrowed():
-    
-    cmd = ['/usr/bin/profiles', 'status', '-type', 'bootstraptoken']
-    proc = subprocess.Popen(cmd, shell=False, bufsize=-1,
-                            stdin=subprocess.PIPE,
-                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    (output, unused_error) = proc.communicate()
-    output = output.splitlines()
-
-    for line in output:
-        if "escrowed to server: YES" in line:
-            return {'bootstraptoken_escrowed': 1}
-    #If escrowed is not YES, return false
-    return {'bootstraptoken_escrowed': 0}
+        if "escrowed to server: NO" in line:
+            out['bootstraptoken_escrowed'] = 1
+        
+    return out
     
 def to_bool(s):
     if s == True or "true" in s:
@@ -343,8 +334,7 @@ def main():
         result = merge_two_dicts(result, {'filevault_users':get_filevault_users()})
     
     if getOsVersion() > 14:
-        result = merge_two_dicts(result, get_bootstraptoken_supported())
-        result = merge_two_dicts(result, get_bootstraptoken_escrowed())
+        result = merge_two_dicts(result, get_bootstraptoken_status())
         
     # Write FileVault results to cache
     output_plist = os.path.join(cachedir, 'filevault_status.plist')
