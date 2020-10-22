@@ -193,7 +193,7 @@ class Filevault_status_controller extends Module_controller
             return;
         }
         
-        $sql = "SELECT filevault_status, filevault_users, auth_restart_support, fv_master_keychain, has_institutional_recovery_key, has_personal_recovery_key, using_recovery_key, fv_progress_status, conversion_percent, bytes_converted, volume_size, conversion_state, pvdeviceid, device_identifier, volume_name, pv_uuid, lvf_uuid, lvg_uuid, uuid, deferral_info, crypto_users
+        $sql = "SELECT filevault_status, filevault_users, auth_restart_support, fv_master_keychain, has_institutional_recovery_key, has_personal_recovery_key, using_recovery_key, fv_progress_status, conversion_percent, bytes_converted, volume_size, conversion_state, pvdeviceid, device_identifier, volume_name, pv_uuid, lvf_uuid, lvg_uuid, uuid, deferral_info, bootstraptoken_supported, bootstraptoken_escrowed, crypto_users
                         FROM filevault_status 
                         WHERE serial_number = '$serial_number'";
         
