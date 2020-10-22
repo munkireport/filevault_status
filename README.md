@@ -1,7 +1,7 @@
 FileVault Status module
 =======================
 
-Gathers FileVault users information by running various `fdesetup` and `diskutil` command
+Gathers FileVault users information by running various `fdesetup`, `diskutil`, and `profiles` command
 
 
 Remarks
@@ -39,3 +39,5 @@ The table provides the following information per 'machine':
 * uuid (string) CoreStorage UUID (HFS only)
 * crypto_users (text) JSON string containing information about SecureToken enabled users (APFS only)
 * deferral_info (text) Information about FileVault deferrals
+* bootstraptoken_supported (boolean) If Bootstrap Token is supported (assigned to an MDM in ABM)
+* bootstraptoken_escrowed (boolean) If the Bootstrap Token is escrowed on the MDM
