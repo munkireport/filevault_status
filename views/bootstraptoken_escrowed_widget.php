@@ -1,7 +1,7 @@
 <div class="col-lg-4 col-md-6">
     <div class="panel panel-default" id="bootstraptoken_escrowed-widget">
         <div id="bootstraptoken_escrowed-widget" class="panel-heading" data-container="body" data-i18n="[title]filevault_status.bootstraptoken_escrowed">
-            <h3 class="panel-title"><i class="fa fa-university"></i> 
+            <h3 class="panel-title"><i class="fa fa-bookmark"></i> 
                 <span data-i18n="filevault_status.bootstraptoken_escrowed"></span>
                 <list-link data-url="/show/listing/filevault_status/filevault_status"></list-link>
             </h3>
