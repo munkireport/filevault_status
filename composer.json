@@ -1,5 +1,6 @@
 {
     "name": "munkireport/filevault_status",
     "description": "Module for munkireport.",
-    "license": "MIT"
+    "license": "MIT",
+    "version": "6.0.0-beta1"
 }
