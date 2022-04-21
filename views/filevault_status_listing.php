@@ -111,8 +111,8 @@ new Filevault_status_model;
 	        	$('td:eq(0)', nRow).html(link);
                 
                 var colvar=$('td:eq(2)', nRow).html();
-	        	colvar = colvar == '1' ? i18n.t('on') :
-	        	(colvar === '0' ? i18n.t('off') : '')
+	        	colvar = colvar == '1' ? '<span class="label label-success">'+i18n.t('on')+'</span>' :
+	        	(colvar === '0' ? '<span class="label label-danger">'+i18n.t('off')+'</span>' : '')
 	        	$('td:eq(2)', nRow).html(colvar)
                 
                 // Process stored JSON to extract usernames
@@ -128,28 +128,28 @@ new Filevault_status_model;
                 } 
                 
                 var colvar=$('td:eq(5)', nRow).html();
-	        	colvar = colvar == '1' ? i18n.t('yes') :
-	        	(colvar === '0' ? i18n.t('no') : '')
+	        	colvar = colvar == '1' ? '<span class="label label-danger">'+i18n.t('yes')+'</span>' :
+	        	(colvar === '0' ? '<span class="label label-success">'+i18n.t('no')+'</span>' : '')
 	        	$('td:eq(5)', nRow).html(colvar)
                 
                 var colvar=$('td:eq(6)', nRow).html();
-	        	colvar = colvar == '1' ? i18n.t('yes') :
-	        	(colvar === '0' ? i18n.t('no') : '')
+	        	colvar = colvar == '1' ? '<span class="label label-success">'+i18n.t('yes')+'</span>' :
+	        	(colvar === '0' ? '<span class="label label-danger">'+i18n.t('no')+'</span>' : '')
 	        	$('td:eq(6)', nRow).html(colvar)
                 
                 var colvar=$('td:eq(7)', nRow).html();
-	        	colvar = colvar == '1' ? i18n.t('yes') :
-	        	(colvar === '0' ? i18n.t('no') : '')
+	        	colvar = colvar == '1' ? '<span class="label label-success">'+i18n.t('yes')+'</span>' :
+	        	(colvar === '0' ? '<span class="label label-danger">'+i18n.t('no')+'</span>' : '')
 	        	$('td:eq(7)', nRow).html(colvar)
 
                 var colvar=$('td:eq(9)', nRow).html();
-	        	colvar = colvar == '1' ? i18n.t('yes') :
-	        	(colvar === '0' ? i18n.t('no') : '')
+	        	colvar = colvar == '1' ? '<span class="label label-success">'+i18n.t('yes')+'</span>' :
+	        	(colvar === '0' ? '<span class="label label-danger">'+i18n.t('no')+'</span>' : '')
 	        	$('td:eq(9)', nRow).html(colvar)
 
                 var colvar=$('td:eq(10)', nRow).html();
-	        	colvar = colvar == '1' ? i18n.t('yes') :
-	        	(colvar === '0' ? i18n.t('no') : '')
+	        	colvar = colvar == '1' ? '<span class="label label-success">'+i18n.t('yes')+'</span>' :
+	        	(colvar === '0' ? '<span class="label label-danger">'+i18n.t('no')+'</span>' : '')
 	        	$('td:eq(10)', nRow).html(colvar)
 
 		    }
