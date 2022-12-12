@@ -1,4 +1,4 @@
-#!/usr/local/munkireport/munkireport-python2
+#!/usr/local/munkireport/munkireport-python3
 
 import os
 import subprocess
@@ -6,6 +6,8 @@ import sys
 import plistlib
 import platform
 import re
+
+sys.path.insert(0, '/usr/local/munki')
 sys.path.insert(0, '/usr/local/munkireport')
 
 from munkilib import FoundationPlist
@@ -32,7 +34,7 @@ def get_crypto_users():
                                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                     (output, unused_error) = proc.communicate()
                     
-                    single_user['user_name'] = output.split('\n')[0].split('		GeneratedUID = (')[0]
+                    single_user['user_name'] = output.decode().split('\n')[0].split('        GeneratedUID = (')[0]
                   
                 except Exception:
                     single_user['user_name'] = ""
@@ -51,7 +53,7 @@ def get_filevault_users():
     
     out = []
     
-    for fv_user in output.split('\n'):
+    for fv_user in output.decode().split('\n'):
         out.append(fv_user.split(',')[0])
     
     del out[-1]
@@ -68,7 +70,7 @@ def get_filevault_status():
     
     out = {'filevault_status':0,'fv_master_keychain':0,'drive_type':"HFS"}
     
-    for fv_line in output.split('\n'):
+    for fv_line in output.decode().split('\n'):
         if 'FileVault is On.' in fv_line:
             out['filevault_status'] = 1
         elif 'FileVault master keychain appears to be installed.' in fv_line:
@@ -97,7 +99,7 @@ def get_filevault_status_legacy():
     
     out = {'filevault_status':0,'fv_master_keychain':0}
     
-    for fv_line in output.split('\n'):
+    for fv_line in output.decode().split('\n'):
         if 'FileVault is On.' in fv_line:
             out['filevault_status'] = 1
         elif 'FileVault master keychain appears to be installed.' in fv_line:
@@ -160,7 +162,7 @@ def get_deferral_info():
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, unused_error) = proc.communicate()
     
-    return output.replace("{", "").replace("}", "").strip()
+    return output.decode().replace("{", "").replace("}", "").strip()
 
 def get_has_institutional_recovery_key():
     
@@ -170,7 +172,7 @@ def get_has_institutional_recovery_key():
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, unused_error) = proc.communicate()
     
-    return {'has_institutional_recovery_key':to_bool(output)}
+    return {'has_institutional_recovery_key':to_bool(output.decode())}
 
 def get_has_personal_recovery_key():
     
@@ -180,7 +182,7 @@ def get_has_personal_recovery_key():
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, unused_error) = proc.communicate()
     
-    return {'has_personal_recovery_key':to_bool(output)}
+    return {'has_personal_recovery_key':to_bool(output.decode())}
 
 def get_using_recovery_key():
     
@@ -190,7 +192,7 @@ def get_using_recovery_key():
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, unused_error) = proc.communicate()
     
-    return {'using_recovery_key':to_bool(output)}
+    return {'using_recovery_key':to_bool(output.decode())}
 
 def get_auth_restart_support():
     
@@ -200,7 +202,7 @@ def get_auth_restart_support():
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, unused_error) = proc.communicate()
     
-    return {'auth_restart_support':to_bool(output)}
+    return {'auth_restart_support':to_bool(output.decode())}
 
 def get_filevault_active():
     
@@ -210,7 +212,7 @@ def get_filevault_active():
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, unused_error) = proc.communicate()
     
-    if "true" in output:
+    if "true" in output.decode():
         return True
     else:
         return False
@@ -222,7 +224,7 @@ def get_bootstraptoken_status():
                             stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, unused_error) = proc.communicate()
-    output = output.splitlines()
+    output = output.decode().splitlines()
     
     out = {}
     out['bootstraptoken_supported'] = 0
@@ -247,10 +249,12 @@ def merge_two_dicts(x, y):
     z = x.copy()
     z.update(y)
     return z
-def getOsVersion():
-    """Returns the minor OS version."""
-    os_version_tuple = platform.mac_ver()[0].split('.')
-    return int(os_version_tuple[1])
+
+def getDarwinVersion():
+    """Returns the Darwin version."""
+    # Catalina -> 10.15.7 -> 19.6.0 -> 19
+    darwin_version_tuple = platform.release().split('.')
+    return int(darwin_version_tuple[0]) 
 
 def _DictFromSubprocess(command, stdin=None):
     """returns a dict based upon a subprocess call with a -plist argument.
@@ -271,38 +275,31 @@ def _DictFromSubprocess(command, stdin=None):
     p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (stdout, stderr) = p.communicate()
 
-    if p.returncode is not 0:
+    if p.returncode != 0:
         raise Exception("Error running command: %s, stderr: %s" %
                                              (command, stderr))
     else:
         try:
-            return plistlib.readPlistFromString(stdout)
+            try:
+               return plistlib.readPlistFromString(stdout)
+            except AttributeError as e:
+                return plistlib.loads(stdout)
         except xml.parsers.expat.ExpatError:
             raise Exception("Error creating plist from output: %s" % stdout)
 
 def main():
     """Main"""
-    # Create cache dir if it does not exist
-    cachedir = '%s/cache' % os.path.dirname(os.path.realpath(__file__))
-    if not os.path.exists(cachedir):
-        os.makedirs(cachedir)
-
-    # Skip manual check
-    if len(sys.argv) > 1:
-        if sys.argv[1] == 'manualcheck':
-            print 'Manual check: skipping'
-            exit(0)
             
     # Check if module is supported
     if  not os.path.isfile('/usr/bin/fdesetup'):
-        print "filevaultstatus module not supported on this version of macOS"
+        print("filevaultstatus module not supported on this version of macOS")
         exit(0)
 
     # Get information about FileVault    
     result = dict()
 
-    # Greater than 12
-    if getOsVersion() > 12:
+    # Greater than macOS 10.12 (Darwin 16)
+    if getDarwinVersion() > 16:
 
         result = merge_two_dicts(result, get_filevault_status())
 
@@ -333,13 +330,18 @@ def main():
         result = merge_two_dicts(result, {'deferral_info':get_deferral_info()})
         result = merge_two_dicts(result, {'filevault_users':get_filevault_users()})
     
-    if getOsVersion() > 14:
+    # If greater than macOS 14 (Darwin 18)
+    if getDarwinVersion() > 18:
         result = merge_two_dicts(result, get_bootstraptoken_status())
         
     # Write FileVault results to cache
+    cachedir = '%s/cache' % os.path.dirname(os.path.realpath(__file__))
     output_plist = os.path.join(cachedir, 'filevault_status.plist')
-    plistlib.writePlist(result, output_plist)
-    #print plistlib.writePlistToString(result)
+    try:
+        plistlib.writePlist(result, output_plist)
+    except:
+        with open(output_plist, 'wb') as fp:
+            plistlib.dump(result, fp, fmt=plistlib.FMT_XML)
 
 if __name__ == "__main__":
     main()
