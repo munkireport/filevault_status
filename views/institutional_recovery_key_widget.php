@@ -1,12 +1,11 @@
 <div class="col-lg-4 col-md-6">
-    <div class="panel panel-default" id="filevault_institutional_recovery_key-widget">
-        <div id="filevault_institutional_recovery_key-widget" class="panel-heading" data-container="body" data-i18n="[title]filevault_status.has_institutional_recovery_key">
-            <h3 class="panel-title"><i class="fa fa-university"></i> 
-                <span data-i18n="filevault_status.has_institutional_recovery_key"></span>
-                <list-link data-url="/show/listing/filevault_status/filevault_status"></list-link>
-            </h3>
+    <div class="card" id="filevault_institutional_recovery_key-widget">
+        <div id="filevault_institutional_recovery_key-widget" class="card-header" data-container="body" data-i18n="[title]filevault_status.has_institutional_recovery_key">
+            <i class="fa fa-university"></i> 
+            <span data-i18n="filevault_status.has_institutional_recovery_key"></span>
+            <a href="/show/listing/filevault_status/filevault_status" class="pull-right"><i class="fa fa-list"></i></a>
         </div>
-        <div class="panel-body text-center"></div>
+        <div class="card-body text-center"></div>
     </div><!-- /panel -->
 </div><!-- /col -->
 
@@ -19,7 +18,7 @@ $(document).on('appUpdate', function(e, lang) {
             return;
         }
 
-        var panel = $('#filevault_institutional_recovery_key-widget div.panel-body'),
+        var panel = $('#filevault_institutional_recovery_key-widget div.card-body'),
         baseUrl = appUrl + '/show/listing/filevault_status/filevault_status/';
         panel.empty();
         

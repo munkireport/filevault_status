@@ -1,12 +1,11 @@
 <div class="col-lg-4 col-md-6">
-    <div class="panel panel-default" id="filevault_conversion_state-widget">
-        <div id="filevault_conversion_state-widget" class="panel-heading" data-container="body" data-i18n="[title]filevault_status.conversion_state">
-            <h3 class="panel-title"><i class="fa fa-refresh"></i> 
-                <span data-i18n="filevault_status.conversion_state"></span>
-                <list-link data-url="/show/listing/filevault_status/filevault_status"></list-link>
-            </h3>
+    <div class="card" id="filevault_conversion_state-widget">
+        <div id="filevault_conversion_state-widget" class="card-header" data-container="body" data-i18n="[title]filevault_status.conversion_state">
+            <i class="fa fa-refresh"></i> 
+            <span data-i18n="filevault_status.conversion_state"></span>
+            <a href="/show/listing/filevault_status/filevault_status" class="pull-right"><i class="fa fa-list"></i></a>
         </div>
-        <div class="panel-body text-center"></div>
+        <div class="card-body text-center"></div>
     </div><!-- /panel -->
 </div><!-- /col -->
 
@@ -19,7 +18,7 @@ $(document).on('appUpdate', function(e, lang) {
             return;
         }
 
-        var panel = $('#filevault_conversion_state-widget div.panel-body'),
+        var panel = $('#filevault_conversion_state-widget div.card-body'),
         baseUrl = appUrl + '/show/listing/filevault_status/filevault_status/';
         panel.empty();
         
