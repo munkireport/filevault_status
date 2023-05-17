@@ -7,13 +7,11 @@ new Filevault_status_model;
 ?>
 
 <div class="container-fluid">
-  <div class="row pt-4>
+  <div class="row pt-4">
 	<div class="col-lg-12">
 
-	  <h3><span data-i18n="filevault_status.filevault_report"></span> <span id="total-count" class='label label-primary'>…</span></h3>
-
+	  <h3><span data-i18n="filevault_status.filevault_report"></span> <span id="total-count" class='badge badge-primary'>…</span></h3>
 	  <table class="table table-striped table-condensed table-bordered">
-
 		<thead>
 		  <tr>
 			<th data-i18n="listing.computername" data-colname='machine.computer_name'></th>
@@ -29,13 +27,11 @@ new Filevault_status_model;
 			<th data-i18n="filevault_status.bootstraptoken_escrowed" data-colname='filevault_status.bootstraptoken_escrowed'></th>
 		  </tr>
 		</thead>
-
 		<tbody>
 		  <tr>
 			<td data-i18n="listing.loading" colspan="8" class="dataTables_empty"></td>
 		  </tr>
 		</tbody>
-
 	  </table>
 	</div> <!-- /span 12 -->
   </div> <!-- /row -->
