@@ -32,7 +32,7 @@ new Filevault_status_model;
 
 		<tbody>
 		  <tr>
-			<td data-i18n="listing.loading" colspan="8" class="dataTables_empty"></td>
+			<td data-i18n="listing.loading" colspan="11" class="dataTables_empty"></td>
 		  </tr>
 		</tbody>
 
@@ -90,11 +90,6 @@ new Filevault_status_model;
                             }
                         });
 
-                    }
-        		    // IDK what this does
-                    if(d.search.value.match(/^\d+\.\d+(\.(\d+)?)?$/)){
-                        var search = d.search.value.split('.').map(function(x){return ('0'+x).slice(-2)}).join('');
-                        d.search.value = search;
                     }
                 }
             },
