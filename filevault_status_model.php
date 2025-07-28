@@ -95,6 +95,10 @@ class Filevault_status_model extends \Model {
                     
                     $this->$item = json_encode($plist[$item]);
                     
+                } else if ($item == "bootstraptoken_supported" || $item == "bootstraptoken_escrowed") {
+                // If the value is an empty string, convert to null
+                    $this->$item = (empty($plist[$item]) ? null : $plist[$item]);
+                    
                 } else {
                 // Set the db fields
                     $this->$item = $plist[$item];

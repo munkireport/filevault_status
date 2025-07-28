@@ -34,9 +34,8 @@ class Filevault_status_controller extends Module_controller
     **/
     public function get_filevault_status()
     {
-        $obj = new View();
         if (! $this->authorized()) {
-            $obj->view('json', array('msg' => 'Not authorized'));
+            jsonView(['error' => 'Not authorized']);
             return;
         }
   
@@ -49,7 +48,7 @@ class Filevault_status_controller extends Module_controller
                         LEFT JOIN reportdata USING (serial_number)
                         WHERE
                             ".get_machine_group_filter('');
-        $obj->view('json', array('msg' => current($queryobj->query($sql))));
+        jsonView(current($queryobj->query($sql)));
     }
     
     /**
@@ -60,9 +59,8 @@ class Filevault_status_controller extends Module_controller
     **/
     public function get_auth_restart_support()
     {
-        $obj = new View();
         if (! $this->authorized()) {
-            $obj->view('json', array('msg' => 'Not authorized'));
+            jsonView(['error' => 'Not authorized']);
             return;
         }
   
@@ -75,7 +73,7 @@ class Filevault_status_controller extends Module_controller
                         LEFT JOIN reportdata USING (serial_number)
                         WHERE
                             ".get_machine_group_filter('');
-        $obj->view('json', array('msg' => current($queryobj->query($sql))));
+        jsonView(current($queryobj->query($sql)));
     }
     
     /**
@@ -86,9 +84,8 @@ class Filevault_status_controller extends Module_controller
     **/
     public function get_institutional_recovery_key()
     {
-        $obj = new View();
         if (! $this->authorized()) {
-            $obj->view('json', array('msg' => 'Not authorized'));
+            jsonView(['error' => 'Not authorized']);
             return;
         }
   
@@ -101,7 +98,7 @@ class Filevault_status_controller extends Module_controller
                         LEFT JOIN reportdata USING (serial_number)
                         WHERE
                             ".get_machine_group_filter('');
-        $obj->view('json', array('msg' => current($queryobj->query($sql))));
+        jsonView(current($queryobj->query($sql)));
     }
     
     /**
@@ -112,9 +109,8 @@ class Filevault_status_controller extends Module_controller
     **/
     public function get_personal_recovery_key()
     {
-        $obj = new View();
         if (! $this->authorized()) {
-            $obj->view('json', array('msg' => 'Not authorized'));
+            jsonView(['error' => 'Not authorized']);
             return;
         }
   
@@ -127,7 +123,7 @@ class Filevault_status_controller extends Module_controller
                         LEFT JOIN reportdata USING (serial_number)
                         WHERE
                             ".get_machine_group_filter('');
-        $obj->view('json', array('msg' => current($queryobj->query($sql))));
+        jsonView(current($queryobj->query($sql)));
     }
     
     /**
@@ -138,9 +134,8 @@ class Filevault_status_controller extends Module_controller
     **/
     public function get_conversion_state()
     {
-        $obj = new View();
         if (! $this->authorized()) {
-            $obj->view('json', array('msg' => 'Not authorized'));
+            jsonView(['error' => 'Not authorized']);
             return;
         }
   
@@ -153,7 +148,7 @@ class Filevault_status_controller extends Module_controller
                         LEFT JOIN reportdata USING (serial_number)
                         WHERE
                             ".get_machine_group_filter('');
-        $obj->view('json', array('msg' => current($queryobj->query($sql))));
+        jsonView(current($queryobj->query($sql)));
     }
 
     /**
@@ -163,10 +158,16 @@ class Filevault_status_controller extends Module_controller
      **/
     public function get_data($serial_number = '')
     {
-        $obj = new View();
-
         if (! $this->authorized()) {
-            $obj->view('json', array('msg' => 'Not authorized'));
+            jsonView(['error' => 'Not authorized']);
+            return;
+        }
+
+        // Sanitize input
+        $serial_number = preg_replace("/[^A-Za-z0-9_\-]+/", '', $serial_number);
+        
+        if (empty($serial_number)) {
+            jsonView([]);
             return;
         }
 
@@ -177,7 +178,7 @@ class Filevault_status_controller extends Module_controller
         $filevault_escrow->rs['filevault_status'] = $filevault_status->rs['filevault_status'];
         $filevault_escrow->rs['filevault_users'] = $filevault_status->rs['filevault_users'];
         
-        $obj->view('json', array('msg' => $filevault_escrow->rs));
+        jsonView($filevault_escrow->rs);
     }
 
     /**
@@ -186,23 +187,25 @@ class Filevault_status_controller extends Module_controller
      **/
     public function get_status_data($serial_number = '')
     {
-        // Remove non-serial number characters
-        $serial_number = preg_replace("/[^A-Za-z0-9_\-]]/", '', $serial_number);
-
-        $obj = new View();
-
         if (! $this->authorized()) {
-            $obj->view('json', array('msg' => 'Not authorized'));
+            jsonView(['error' => 'Not authorized']);
+            return;
+        }
+
+        // Sanitize input
+        $serial_number = preg_replace("/[^A-Za-z0-9_\-]+/", '', $serial_number);
+        
+        if (empty($serial_number)) {
+            jsonView([]);
             return;
         }
         
         $sql = "SELECT filevault_status, filevault_users, auth_restart_support, fv_master_keychain, has_institutional_recovery_key, has_personal_recovery_key, using_recovery_key, fv_progress_status, conversion_percent, bytes_converted, volume_size, conversion_state, pvdeviceid, device_identifier, volume_name, pv_uuid, lvf_uuid, lvg_uuid, uuid, deferral_info, bootstraptoken_supported, bootstraptoken_escrowed, crypto_users
                         FROM filevault_status 
-                        WHERE serial_number = '$serial_number'";
+                        WHERE serial_number = ?";
         
         $queryobj = new Filevault_status_model();
-        $filevault_status_tab = $queryobj->query($sql);
-        $obj->view('json', array('msg' => $filevault_status_tab)); 
+        jsonView($queryobj->query($sql, [$serial_number])); 
     }
 
     /**
@@ -213,9 +216,8 @@ class Filevault_status_controller extends Module_controller
     **/
     public function get_bootstraptoken_supported()
     {
-        $obj = new View();
         if (! $this->authorized()) {
-            $obj->view('json', array('msg' => 'Not authorized'));
+            jsonView(['error' => 'Not authorized']);
             return;
         }
   
@@ -228,7 +230,7 @@ class Filevault_status_controller extends Module_controller
                         LEFT JOIN reportdata USING (serial_number)
                         WHERE
                             ".get_machine_group_filter('');
-        $obj->view('json', array('msg' => current($queryobj->query($sql))));
+        jsonView(current($queryobj->query($sql)));
     }
 
     /**
@@ -239,9 +241,8 @@ class Filevault_status_controller extends Module_controller
     **/
     public function get_bootstraptoken_escrowed()
     {
-        $obj = new View();
         if (! $this->authorized()) {
-            $obj->view('json', array('msg' => 'Not authorized'));
+            jsonView(['error' => 'Not authorized']);
             return;
         }
   
@@ -254,7 +255,174 @@ class Filevault_status_controller extends Module_controller
                         LEFT JOIN reportdata USING (serial_number)
                         WHERE
                             ".get_machine_group_filter('');
-        $obj->view('json', array('msg' => current($queryobj->query($sql))));
+        jsonView(current($queryobj->query($sql)));
+    }
+
+    /**
+     * Get list data for widgets
+     *
+     * @param string $column
+     * @return void
+     **/
+    public function get_list($column = '')
+    {
+        if (! $this->authorized()) {
+            jsonView(['error' => 'Not authorized']);
+            return;
+        }
+
+        // Sanitize input
+        $column = preg_replace("/[^A-Za-z0-9_\-]+/", '', $column);
+        
+        // Whitelist allowed columns
+        $allowed_columns = [
+            'filevault_status', 'auth_restart_support', 'has_institutional_recovery_key', 
+            'has_personal_recovery_key', 'conversion_state', 'bootstraptoken_supported', 
+            'bootstraptoken_escrowed'
+        ];
+        
+        if (!in_array($column, $allowed_columns)) {
+            jsonView([]);
+            return;
+        }
+        
+        $queryobj = new Filevault_status_model();
+        
+        // Special handling for filevault_status column
+        if ($column === 'filevault_status') {
+            $sql = "SELECT COUNT(1) as total,
+                            COUNT(CASE WHEN `filevault_status` = 1 THEN 1 END) AS 'on',
+                            COUNT(CASE WHEN `filevault_status` = 0 THEN 1 END) AS 'off',
+                            COUNT(CASE WHEN `filevault_status` IS NULL OR `filevault_status` = '' THEN 1 END) AS 'unknown'
+                            FROM filevault_status
+                            LEFT JOIN reportdata USING (serial_number)
+                            WHERE ".get_machine_group_filter('');
+
+            $out = [];
+            foreach($queryobj->query($sql)[0] as $label => $value){
+                if($label !== 'total'){
+                    $out[] = ['label' => $label, 'count' => $value];
+                }
+            }
+            jsonView($out);
+            return;
+        }
+        // Special handling for auth_restart_support column
+        elseif ($column === 'auth_restart_support') {
+            $sql = "SELECT COUNT(1) as total,
+                            COUNT(CASE WHEN `auth_restart_support` = 1 THEN 1 END) AS 'yes',
+                            COUNT(CASE WHEN `auth_restart_support` = 0 THEN 1 END) AS 'no',
+                            COUNT(CASE WHEN `auth_restart_support` IS NULL THEN 1 END) AS 'unknown'
+                            FROM filevault_status
+                            LEFT JOIN reportdata USING (serial_number)
+                            WHERE ".get_machine_group_filter('');
+
+            $out = [];
+            foreach($queryobj->query($sql)[0] as $label => $value){
+                if($label !== 'total'){
+                    $out[] = ['label' => $label, 'count' => $value];
+                }
+            }
+            jsonView($out);
+            return;
+        }
+        // Special handling for has_institutional_recovery_key column
+        elseif ($column === 'has_institutional_recovery_key') {
+            $sql = "SELECT COUNT(1) as total,
+                            COUNT(CASE WHEN `has_institutional_recovery_key` = 1 THEN 1 END) AS 'yes',
+                            COUNT(CASE WHEN `has_institutional_recovery_key` = 0 THEN 1 END) AS 'no',
+                            COUNT(CASE WHEN `has_institutional_recovery_key` IS NULL THEN 1 END) AS 'unknown'
+                            FROM filevault_status
+                            LEFT JOIN reportdata USING (serial_number)
+                            WHERE ".get_machine_group_filter('');
+
+            $out = [];
+            foreach($queryobj->query($sql)[0] as $label => $value){
+                if($label !== 'total'){
+                    $out[] = ['label' => $label, 'count' => $value];
+                }
+            }
+            jsonView($out);
+            return;
+        }
+        // Special handling for has_personal_recovery_key column
+        elseif ($column === 'has_personal_recovery_key') {
+            $sql = "SELECT COUNT(1) as total,
+                            COUNT(CASE WHEN `has_personal_recovery_key` = 1 THEN 1 END) AS 'yes',
+                            COUNT(CASE WHEN `has_personal_recovery_key` = 0 THEN 1 END) AS 'no',
+                            COUNT(CASE WHEN `has_personal_recovery_key` IS NULL THEN 1 END) AS 'unknown'
+                            FROM filevault_status
+                            LEFT JOIN reportdata USING (serial_number)
+                            WHERE ".get_machine_group_filter('');
+
+            $out = [];
+            foreach($queryobj->query($sql)[0] as $label => $value){
+                if($label !== 'total'){
+                    $out[] = ['label' => $label, 'count' => $value];
+                }
+            }
+            jsonView($out);
+            return;
+        }
+        // Special handling for conversion_state column
+        elseif ($column === 'conversion_state') {
+            $sql = "SELECT 
+                        CASE 
+                            WHEN fv_progress_status LIKE '%Encryption%' THEN 'converting'
+                            WHEN fv_progress_status LIKE '%Decryption%' THEN 'decrypting'
+                            WHEN fv_progress_status = 'FileVault is Off, but needs to be restarted to finish.' OR fv_progress_status = 'FileVault is On, but needs to be restarted to finish.' THEN 'restart'
+                            WHEN fv_progress_status IS NULL OR fv_progress_status = '' OR (fv_progress_status NOT LIKE '%Encryption%' AND fv_progress_status NOT LIKE '%Decryption%' AND fv_progress_status != 'FileVault is Off, but needs to be restarted to finish.' AND fv_progress_status != 'FileVault is On, but needs to be restarted to finish.') THEN 'unknown'
+                            ELSE 'unknown'
+                        END AS label,
+                        COUNT(*) AS count 
+                    FROM filevault_status 
+                    LEFT JOIN reportdata USING (serial_number)
+                    ".get_machine_group_filter()."
+                    GROUP BY label 
+                    ORDER BY count DESC";
+            
+            $result = $queryobj->query($sql);
+            jsonView($result);
+            return;
+        }
+        // Special handling for bootstraptoken_supported column
+        elseif ($column === 'bootstraptoken_supported') {
+            $sql = "SELECT COUNT(1) as total,
+                            COUNT(CASE WHEN `bootstraptoken_supported` = 1 THEN 1 END) AS 'yes',
+                            COUNT(CASE WHEN `bootstraptoken_supported` = 0 THEN 1 END) AS 'no',
+                            COUNT(CASE WHEN `bootstraptoken_supported` IS NULL THEN 1 END) AS 'unknown'
+                            FROM filevault_status
+                            LEFT JOIN reportdata USING (serial_number)
+                            WHERE ".get_machine_group_filter('');
+
+            $out = [];
+            foreach($queryobj->query($sql)[0] as $label => $value){
+                if($label !== 'total'){
+                    $out[] = ['label' => $label, 'count' => $value];
+                }
+            }
+            jsonView($out);
+            return;
+        }
+        // Special handling for bootstraptoken_escrowed column
+        elseif ($column === 'bootstraptoken_escrowed') {
+            $sql = "SELECT COUNT(1) as total,
+                            COUNT(CASE WHEN `bootstraptoken_escrowed` = 1 THEN 1 END) AS 'yes',
+                            COUNT(CASE WHEN `bootstraptoken_escrowed` = 0 THEN 1 END) AS 'no',
+                            COUNT(CASE WHEN `bootstraptoken_escrowed` IS NULL THEN 1 END) AS 'unknown'
+                            FROM filevault_status
+                            LEFT JOIN reportdata USING (serial_number)
+                            WHERE ".get_machine_group_filter('');
+
+            $out = [];
+            foreach($queryobj->query($sql)[0] as $label => $value){
+                if($label !== 'total'){
+                    $out[] = ['label' => $label, 'count' => $value];
+                }
+            }
+            jsonView($out);
+            return;
+        }
     }
 
 } // End class Filevault_status_controller

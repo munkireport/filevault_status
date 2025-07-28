@@ -1,0 +1,19 @@
+type: button
+widget_id: filevault_bootstraptoken_escrowed-widget
+api_url: /module/filevault_status/get_list/bootstraptoken_escrowed
+i18n_title: filevault_status.bootstraptoken_escrowed
+icon: fa-shield
+listing_link: /show/listing/filevault_status/filevault_status
+buttons:
+  - label: "yes"
+    i18n_label: yes
+    class: btn-success
+    search_component: bootstraptoken_escrowed
+  - label: "no"
+    i18n_label: no
+    class: btn-danger
+    search_component: bootstraptoken_not_escrowed
+  - label: "unknown"
+    i18n_label: unknown
+    class: btn-warning
+    search_component: bootstraptoken_escrowed_unknown 

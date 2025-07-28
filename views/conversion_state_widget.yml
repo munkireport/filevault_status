@@ -1,0 +1,23 @@
+type: button
+widget_id: filevault_conversion_state-widget
+api_url: /module/filevault_status/get_conversion_state
+i18n_title: filevault_status.conversion_state
+icon: fa-exchange
+listing_link: /show/listing/filevault_status/filevault_status
+buttons:
+  - label: "converting"
+    i18n_label: filevault_status.converting
+    class: btn-warning
+    search_component: converting
+  - label: "decrypting"
+    i18n_label: filevault_status.decrypting
+    class: btn-info
+    search_component: decrypting
+  - label: "restart"
+    i18n_label: filevault_status.restart
+    class: btn-warning
+    search_component: restart
+  - label: "unknown"
+    i18n_label: unknown
+    class: btn-default
+    search_component: unknown 

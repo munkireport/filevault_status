@@ -1,0 +1,19 @@
+type: button
+widget_id: filevault_bootstraptoken_supported-widget
+api_url: /module/filevault_status/get_list/bootstraptoken_supported
+i18n_title: filevault_status.bootstraptoken_supported
+icon: fa-key
+listing_link: /show/listing/filevault_status/filevault_status
+buttons:
+  - label: "yes"
+    i18n_label: yes
+    class: btn-success
+    search_component: bootstraptoken_supported
+  - label: "no"
+    i18n_label: no
+    class: btn-danger
+    search_component: bootstraptoken_not_supported
+  - label: "unknown"
+    i18n_label: unknown
+    class: btn-warning
+    search_component: bootstraptoken_unknown 
