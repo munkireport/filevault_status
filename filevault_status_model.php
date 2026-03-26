@@ -3,7 +3,7 @@
 use CFPropertyList\CFPropertyList;
 
 class Filevault_status_model extends \Model {
-    
+
     public function __construct($serial = '')
     {
         parent::__construct('id', 'filevault_status'); //primary key, tablename
@@ -32,7 +32,6 @@ class Filevault_status_model extends \Model {
         $this->rs['deferral_info'] = '';
         $this->rs['bootstraptoken_supported'] = null;
         $this->rs['bootstraptoken_escrowed'] = null;
-        
 
         if ($serial) {
             $this->retrieve_record($serial);
@@ -40,7 +39,7 @@ class Filevault_status_model extends \Model {
         
         $this->serial = $serial;
     }
-    
+
     // ------------------------------------------------------------------------
 
     /**
@@ -55,7 +54,7 @@ class Filevault_status_model extends \Model {
         if (! $data) {
             throw new Exception("Error Processing FileVault Status Module Request: No data found", 1);
         } else if (substr( $data, 0, 30 ) != '<?xml version="1.0" encoding="' ) { // Else if old style text, process with old text based handler
-         
+
             // Process copied from network model. Translate strings to db fields. needed? . error proof?
             $translate = array('fv_users = ' => 'filevault_users');
 
@@ -76,9 +75,9 @@ class Filevault_status_model extends \Model {
                 }
             } //end foreach explode lines
             $this->save();
-        
+
         } else { // Else process with new XML handler
-         
+
             // Process incoming filevault_status.plist
             $parser = new CFPropertyList();
             $parser->parse($data, CFPropertyList::FORMAT_XML);
@@ -92,19 +91,15 @@ class Filevault_status_model extends \Model {
                     $this->$item = null;
                 } else if ($item == "crypto_users") {
                 // Process the crypto users into a JSON
-                    
+
                     $this->$item = json_encode($plist[$item]);
-                    
-                } else if ($item == "bootstraptoken_supported" || $item == "bootstraptoken_escrowed") {
-                // If the value is an empty string, convert to null
-                    $this->$item = (empty($plist[$item]) ? null : $plist[$item]);
-                    
+
                 } else {
                 // Set the db fields
                     $this->$item = $plist[$item];
                 }
             }
-            
+
             // Save the data, we needs it
             $this->save(); 
         }

@@ -2,7 +2,7 @@ type: button
 widget_id: filevault_conversion_state-widget
 api_url: /module/filevault_status/get_conversion_state
 i18n_title: filevault_status.conversion_state
-icon: fa-exchange
+icon: fa-refresh
 listing_link: /show/listing/filevault_status/filevault_status
 buttons:
   - label: "converting"

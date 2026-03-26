@@ -1,14 +1,10 @@
 type: button
 widget_id: filevault_institutional_recovery_key-widget
-api_url: /module/filevault_status/get_list/has_institutional_recovery_key
+api_url: /module/filevault_status/get_institutional_recovery_key
 i18n_title: filevault_status.has_institutional_recovery_key
-icon: fa-building
+icon: fa-university
 listing_link: /show/listing/filevault_status/filevault_status
 buttons:
-  - label: "yes"
-    i18n_label: yes
-    class: btn-success
-    search_component: has_institutional_key
   - label: "no"
     i18n_label: no
     class: btn-danger
@@ -16,4 +12,8 @@ buttons:
   - label: "unknown"
     i18n_label: unknown
     class: btn-warning
-    search_component: institutional_key_unknown 
+    search_component: institutional_key_unknown
+  - label: "yes"
+    i18n_label: yes
+    class: btn-success
+    search_component: has_institutional_key

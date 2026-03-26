@@ -192,8 +192,6 @@ var formatFileVaultStatus = function(col, row) {
         case '0':
             value = mr.label(i18n.t('off'), 'danger');
             break;
-        default:
-            value = mr.label(i18n.t('unknown'), 'warning');
     }
     
     cell.html(value);
@@ -211,8 +209,6 @@ var formatYesNo = function(col, row) {
         case '0':
             value = mr.label(i18n.t('no'), 'danger');
             break;
-        default:
-            value = mr.label(i18n.t('unknown'), 'warning');
     }
     
     cell.html(value);
@@ -230,9 +226,24 @@ var formatInstitutionalRecoveryKey = function(col, row) {
         case '0':
             value = mr.label(i18n.t('no'), 'success');
             break;
-        default:
-            value = mr.label(i18n.t('unknown'), 'warning');
     }
     
     cell.html(value);
+}
+
+// Crypto Users formatter
+var formatCryptoUsers = function(col, row) {
+    var cell = $('td:eq('+col+')', row),
+        value = cell.text().trim();
+    console.log(value)
+    if (value != ""){
+        var crypto_users = []
+        $.each(JSON.parse(value), function(i,d){
+            if (d['user_name'] != ""){
+                crypto_users.push(d['user_name'])
+            }
+        })
+    }
+
+    cell.html(crypto_users);
 } 

@@ -14,6 +14,9 @@ table:
     filter: filevault_status_filter
   - column: filevault_status.filevault_users
     i18n_header: filevault_status.filevault_users_short
+  - column: filevault_status.crypto_users
+    i18n_header: filevault_status.crypto_users_short
+    formatter: formatCryptoUsers
   - column: filevault_status.has_institutional_recovery_key
     i18n_header: filevault_status.has_institutional_recovery_key_short
     formatter: formatInstitutionalRecoveryKey
@@ -26,8 +29,6 @@ table:
     i18n_header: filevault_status.auth_restart_support_short
     formatter: formatYesNo
     filter: auth_restart_support_filter
-  # - column: filevault_status.fv_progress_status
-  #   i18n_header: filevault_status.fv_progress_status_short
   - column: filevault_status.bootstraptoken_supported
     i18n_header: filevault_status.bootstraptoken_supported
     formatter: formatYesNo
@@ -35,7 +36,5 @@ table:
   - column: filevault_status.bootstraptoken_escrowed
     i18n_header: filevault_status.bootstraptoken_escrowed
     formatter: formatYesNo
-    filter: bootstraptoken_escrowed_filter 
-  - column: filevault_status.crypto_users
-    i18n_header: filevault_status.crypto_users_short
+    filter: bootstraptoken_escrowed_filter
     

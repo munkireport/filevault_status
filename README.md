@@ -4,12 +4,6 @@ FileVault Status module
 Gathers FileVault users information by running various `fdesetup`, `diskutil`, and `profiles` command
 
 
-Remarks
-----
-
-* Filevault status is no longer deprecated. It has been rewritten to support APFS and T2 Macs
-
-
 Table Schema
 ----
 

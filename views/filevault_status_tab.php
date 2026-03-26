@@ -1,16 +1,5 @@
 <div id="filevault-status-tab"></div>
-
-<div id="lister" style="font-size: large; float: right;">
-    <a href="/show/listing/filevault_status/filevault_status" title="List">
-        <i class="btn btn-default tab-btn fa fa-list"></i>
-    </a>
-</div>
-<div id="report_btn" style="font-size: large; float: right;">
-    <a href="/show/report/filevault_status/filevault_status_report" title="Report">
-        <i class="btn btn-default tab-btn fa fa-th"></i>
-    </a>
-</div>
-<h2><i class="fa fa-lock"></i> <span data-i18n="filevault_status.filevault_info"></span></h2>
+<h2 data-i18n="filevault_status.filevault_info"></h2>
 
 <script>
 $(document).on('appReady', function(){
