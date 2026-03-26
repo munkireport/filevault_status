@@ -1,0 +1,19 @@
+type: button
+widget_id: filevault_auth_restart_support-widget
+api_url: /module/filevault_status/get_list/auth_restart_support
+i18n_title: filevault_status.auth_restart_support
+icon: fa-arrow-circle-right
+listing_link: /show/listing/filevault_status/filevault_status
+buttons:
+  - label: "yes"
+    i18n_label: yes
+    class: btn-success
+    search_component: auth_restart_supported
+  - label: "no"
+    i18n_label: no
+    class: btn-danger
+    search_component: auth_restart_not_supported
+  - label: "unknown"
+    i18n_label: unknown
+    class: btn-warning
+    search_component: auth_restart_unknown 

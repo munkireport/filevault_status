@@ -1,0 +1,8 @@
+row1:
+  filevault_status:
+  auth_restart_support:
+  institutional_recovery_key:
+row2:
+  personal_recovery_key:
+  bootstraptoken_supported:
+  bootstraptoken_escrowed: 

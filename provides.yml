@@ -1,0 +1,35 @@
+client_tabs:
+  filevault-status-tab:
+    view: filevault_status_tab
+    i18n: filevault_status.filevault_info
+    badge: filevault-status-cnt
+listings:
+  filevault_status:
+    view: filevault_status_listing
+    i18n: filevault_status.filevault_info
+reports:
+  filevault_status_report:
+    view: filevault_status_report
+    i18n: filevault_status.filevault_report
+widgets:
+  filevault_status:
+    view: filevault_status_widget
+    i18n: filevault_status.filevault_status
+  auth_restart_support:
+    view: auth_restart_support_widget
+    i18n: filevault_status.auth_restart_support
+  institutional_recovery_key:
+    view: institutional_recovery_key_widget
+    i18n: filevault_status.has_institutional_recovery_key
+  personal_recovery_key:
+    view: personal_recovery_key_widget
+    i18n: filevault_status.has_personal_recovery_key
+  conversion_state:
+    view: conversion_state_widget
+    i18n: filevault_status.conversion_state
+  bootstraptoken_supported:
+    view: bootstraptoken_supported_widget
+    i18n: filevault_status.bootstraptoken_supported
+  bootstraptoken_escrowed:
+    view: bootstraptoken_escrowed_widget
+    i18n: filevault_status.bootstraptoken_escrowed 

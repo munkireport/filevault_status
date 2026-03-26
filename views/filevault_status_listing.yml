@@ -1,0 +1,41 @@
+i18n_title: filevault_status.filevault_report
+js_link: module/filevault_status/js/filevault_status
+not_null_column: filevault_status.filevault_status
+table:
+  - column: machine.computer_name
+    i18n_header: listing.computername
+    formatter: clientDetail
+    tab_link: filevault-status-tab
+  - column: reportdata.serial_number
+    i18n_header: serial
+  - column: filevault_status.filevault_status
+    i18n_header: filevault_status.filevault_status_short
+    formatter: formatFileVaultStatus
+    filter: filevault_status_filter
+  - column: filevault_status.filevault_users
+    i18n_header: filevault_status.filevault_users_short
+  - column: filevault_status.has_institutional_recovery_key
+    i18n_header: filevault_status.has_institutional_recovery_key_short
+    formatter: formatInstitutionalRecoveryKey
+    filter: institutional_recovery_key_filter
+  - column: filevault_status.has_personal_recovery_key
+    i18n_header: filevault_status.has_personal_recovery_key_short
+    formatter: formatYesNo
+    filter: personal_recovery_key_filter
+  - column: filevault_status.auth_restart_support
+    i18n_header: filevault_status.auth_restart_support_short
+    formatter: formatYesNo
+    filter: auth_restart_support_filter
+  # - column: filevault_status.fv_progress_status
+  #   i18n_header: filevault_status.fv_progress_status_short
+  - column: filevault_status.bootstraptoken_supported
+    i18n_header: filevault_status.bootstraptoken_supported
+    formatter: formatYesNo
+    filter: bootstraptoken_supported_filter
+  - column: filevault_status.bootstraptoken_escrowed
+    i18n_header: filevault_status.bootstraptoken_escrowed
+    formatter: formatYesNo
+    filter: bootstraptoken_escrowed_filter 
+  - column: filevault_status.crypto_users
+    i18n_header: filevault_status.crypto_users_short
+    

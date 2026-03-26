@@ -1,0 +1,19 @@
+type: button
+widget_id: filevault_personal_recovery_key-widget
+api_url: /module/filevault_status/get_list/has_personal_recovery_key
+i18n_title: filevault_status.has_personal_recovery_key
+icon: fa-user
+listing_link: /show/listing/filevault_status/filevault_status
+buttons:
+  - label: "yes"
+    i18n_label: yes
+    class: btn-success
+    search_component: has_personal_key
+  - label: "no"
+    i18n_label: no
+    class: btn-danger
+    search_component: no_personal_key
+  - label: "unknown"
+    i18n_label: unknown
+    class: btn-warning
+    search_component: personal_key_unknown 
